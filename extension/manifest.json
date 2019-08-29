@@ -1,0 +1,41 @@
+{
+    "name": "Getting Started Example",
+    "version": "1.0",
+    "description": "Build an Extension!",
+    "manifest_version": 2,
+    "browser_action": {
+        "default_icon": "logo48.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "*://dict.eudic.net/liju/en/*",
+        "*://cn.bing.com/dict/search?q=*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "*://dict.eudic.net/liju/en/*"
+            ],
+            "js": [
+                "jquery.min.js",
+                "onlijupage.js"
+            ],
+            "run_at": "document_end" 
+        },
+        {
+            "matches": [
+                "*://cn.bing.com/dict/search?q=*"
+            ],
+            "js": [
+                "jquery.min.js",
+                "ondictpage.js"
+            ],
+            "run_at": "document_end" 
+        }
+    ],
+    "background": {
+        "page": "background.html"
+    }
+}
