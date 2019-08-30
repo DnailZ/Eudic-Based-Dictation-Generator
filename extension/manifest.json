@@ -3,16 +3,17 @@
     "version": "1.0",
     "description": "Build an Extension!",
     "manifest_version": 2,
-    "browser_action": {
-        "default_icon": "logo48.png",
-        "default_popup": "popup.html"
-    },
+
     "permissions": [
         "tabs",
         "activeTab",
         "*://dict.eudic.net/liju/en/*",
         "*://cn.bing.com/dict/search?q=*"
     ],
+    "browser_action": {
+        "default_icon": "logo48.png",
+        "default_popup": "popup.html"
+    },
     "content_scripts": [
         {
             "matches": [

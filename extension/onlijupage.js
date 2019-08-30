@@ -1,8 +1,14 @@
 const start = 8
 const inv = 250
 const replace = "______"
-const origen_key = new Array("TPO","VOA","CNN","BBC","AP","TED","科学60秒","新概念英语","经济学人","Crash Course","词汇","百科","科普","SCIENCE")
-
+const origen_key = new Array(
+    "TPO","VOA","CNN","BBC","AP","TED","NPR",
+    "科学60秒","新概念英语","经济学人",
+    "Crash Course","词汇","百科","科普",
+    "SCIENCE","教材","美语","纪录片","书虫",
+    "雅思","IELTS","大学英语","考研英语","真题",
+    "听力","例句","考研","四级","六级"
+    )
 document.title = '欧路听写测试 - 例句听写'
 
 $("#search-box")[0].style.display = "none"
@@ -83,4 +89,20 @@ function callback(){
     en_display(candidates[lucky])
     make_question(candidates[lucky])
 
+    $('<button id="play">播放声音</button>"  "').appendTo("#head-bar")
+    $("#play")[0].onclick = function(){
+        candidates[lucky].getElementsByClassName("voice-js voice-button")[0].click()
+    }
+
+    $('<button id="show_trans">显示/隐藏翻译</button>').appendTo("#head-bar")
+    $("#show_trans")[0].onclick = function(){
+        var style = candidates[lucky].getElementsByClassName("exp")[0].style
+        if(style.visibility == "hidden"){
+            style.visibility = ""
+        }else{
+            style.visibility = "hidden"
+        }
+    }
+
+    $("a",".expHead")[0].click()
 }

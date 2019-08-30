@@ -4,22 +4,12 @@ const oulu_website = "https://dict.eudic.net/liju/en/"
 window.onload = function () {
     document.getElementById("mainfunc").addEventListener("click", mainfunc);
 
-    var json_data = new Array()
+    var json_data = null
     var back = chrome.extension.getBackgroundPage()
 
-    // 读入文件
     $.getJSON("resource.json", function (data){
+        json_data = data
         $.each(data,function(index,info){
-            var word_list0 = new Array()
-            $.each(info["word_list"],function(index,word){
-                word_list0.push(word)
-            })
-            json_data.push({
-                name:info["name"],
-                order:info["order"],
-                next:info["next"],
-                word_list:word_list0
-            })
             $('#group')[0].add($('<option>' + info['name'] + '</option>')[0])
         })
     })
@@ -30,17 +20,31 @@ window.onload = function () {
         repeat(word_group)
     }
 
-    // 重复 length 次，随机抽取单词
     function repeat(word_group){
         var form = document.forms["argform"]
-        var len = new Number(form["length"].value)
-        for(var i = 0; i < len;i++){
-            generate(word_group)
+        var len = Number(form["length"].value)
+        var order_index = $("#order")[0].selectedIndex
+        if(order_index == 0){
+            for(var i = 0; i < len;i++){
+                generate(word_group)
+            }
+        }else if(order_index == 1){
+            var section = Number(form["section"].value)
+            var section_size = word_group["section_size"]
+            var group_size = word_group["word_list"].length
+            var start = section*section_size
+            var end = Math.min(
+                (section + 1)*section_size,
+                group_size
+            )
+            for(var i = start; i < end;i++){
+                back.open(oulu_website + word_group["word_list"][i])
+            }
         }
     }
 
     function generate(word_group){
-        var words = word_group.word_list
+        var words = word_group['word_list']
         var lucky = Math.floor((Math.random()*words.length))
         back.open(oulu_website + words[lucky])
     }
